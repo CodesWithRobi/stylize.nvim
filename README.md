@@ -2,13 +2,13 @@
 
 A simple Neovim plugin to apply Unicode text styles like **bold**, *italic*, `monospace`, and more!
 
-## ✨ Features
+## Features
 
 - Apply styles to visually selected text
 - Supports: `bold`, `italic`, `bold_italic`, `monospace`
 - Easy commands and keymaps
 
-## 🛠 Installation (Lazy.nvim)
+## Installation (Lazy.nvim)
 
 ```lua
 {
