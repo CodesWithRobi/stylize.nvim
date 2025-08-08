@@ -24,7 +24,7 @@ A simple Neovim plugin to apply Unicode text styles like **bold**, *italic*, `mo
 Highlight the text you want to style in visual mode
 Run one of the following commands to transform it:
 
-```vim
+```lua
 :Stylize bold
 :Stylize italic
 :Stylize bold_italic
