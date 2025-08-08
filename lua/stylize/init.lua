@@ -8,28 +8,38 @@ function M.stylize_visual(style)
     return
   end
 
-  local start_pos = vim.fn.getpos("'<")
-  local end_pos = vim.fn.getpos("'>")
-  local lines = vim.api.nvim_buf_get_lines(0, start_pos[2]-1, end_pos[2], false)
-  if #lines == 0 then return end
+local start_pos = vim.fn.getpos("'<")
+local end_pos = vim.fn.getpos("'>")
+local mode = vim.fn.mode()
 
+local lines = vim.api.nvim_buf_get_lines(0, start_pos[2]-1, end_pos[2], false)
+if #lines == 0 then return end
+
+if mode == "v" then
   lines[1] = string.sub(lines[1], start_pos[3])
   lines[#lines] = string.sub(lines[#lines], 1, end_pos[3])
+elseif mode == "V" then
+  -- Visual line mode doesn't need any trimming
+elseif mode == "\22" then
+  -- For future special handling ig
+  lines[1] = string.sub(lines[1], start_pos[3])
+  lines[#lines] = string.sub(lines[#lines], 1, end_pos[3])
+end
 
-  for i, line in ipairs(lines) do
-    local new_line = {}
-    for c in line:gmatch(".") do
-      table.insert(new_line, map[c] or c)
-    end
-    lines[i] = table.concat(new_line)
+for i, line in ipairs(lines) do
+  local new_line = {}
+  for c in line:gmatch(".") do
+    table.insert(new_line, map[c] or c)
   end
+  lines[i] = table.concat(new_line)
+end
 
-  vim.api.nvim_buf_set_text(
-    0,
-    start_pos[2]-1, start_pos[3]-1,
-    end_pos[2]-1, end_pos[3],
-    lines
-  )
+vim.api.nvim_buf_set_text(
+  0,
+  start_pos[2]-1, (mode == "v" or mode == "\22") and (start_pos[3]-1) or 0,
+  end_pos[2]-1, (mode == "v" or mode == "\22") and end_pos[3] or #lines[#lines],
+  lines
+)
 end
 
 function M.setup()
