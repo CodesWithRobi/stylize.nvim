@@ -1,10 +1,9 @@
-local utf8 = require("utf8")
 local M = {}
 
 local function map_range(start_char, unicode_start)
   local map = {}
   for i = 0, 25 do
-    map[string.char(start_char + i)] = utf8.char(unicode_start + i)
+    map[string.char(start_char + i)] = vim.fn.nr2char(unicode_start + i)
   end
   return map
 end
@@ -12,7 +11,7 @@ end
 local function map_numbers(unicode_start)
   local map = {}
   for i = 0, 9 do
-    map[tostring(i)] = utf8.char(unicode_start + i)
+    map[tostring(i)] = vim.fn.nr2char(unicode_start + i)
   end
   return map
 end
