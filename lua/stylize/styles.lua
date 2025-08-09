@@ -23,10 +23,14 @@ M.maps = {
     map_numbers(0x1D7CE)
   ),
 
-  italic = vim.tbl_extend("force",
-    map_range(65, 0x1D434),
-    map_range(97, 0x1D44E)
-  ),
+  italic = (function()
+    local map = vim.tbl_extend("force",
+      map_range(65, 0x1D434),
+      map_range(97, 0x1D44E)
+    )
+    map["h"] = "ℎ" -- U+210E Planck constant symbol (looks like italic h)
+    return map
+  end)(),
 
   bold_italic = vim.tbl_extend("force",
     map_range(65, 0x1D468),
